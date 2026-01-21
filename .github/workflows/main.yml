@@ -2,19 +2,20 @@ name: Publish Docker
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
-      - name: Publish to registy
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Publish to registry
         uses: elgohr/Publish-Docker-Github-Action@v4
-        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
         with:
           registry: docker.pkg.github.com
-          name: docker.pkg.github.com/Peschik/nestjs-demo/top-api
+          name: Peschik/nestjs-demo/top-api
           username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: "develop"
+          password: ${{ secrets.DOCKER_TOKEN }} 
+          tags: 'develop'
